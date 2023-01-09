@@ -46,7 +46,7 @@ def batch_orders(no_of_packers, available_goods_quantity, customer_orders):
         thread.start()
 
     # ---------------------------------------------------
-    # waiting for each thread to complete before printing the flow of batches
+    # waiting for all threads to complete before printing the flow of batches
 
     for thread in threads:
         thread.join()
@@ -95,9 +95,8 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
     # ---------------------------------------------------
     # requesting a box of items
 
-    flow_of_batches['flow'].append('='*40)
     flow_of_batches['flow'].append(
-        f"=> packer {packer} operating box of {first_item}")
+        f"==> packer {packer} operating box of {first_item}")
     flow_of_batches['number_of_boxes'] += 1
 
     # ---------------------------------------------------
@@ -105,7 +104,7 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
 
     for order_name in orders:
         flow_of_batches['flow'].append(
-            f"---packing {remaining_orders[order_name][first_item]} of {first_item} for order {order_name}")
+            f"--- packing {remaining_orders[order_name][first_item]} of {first_item} for order {order_name}")
         flow_of_batches['number_of_items'] += remaining_orders[order_name][first_item]
 
         # The lock ensures non-interference between the threads for the same resource
@@ -125,9 +124,7 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
     # ---------------------------------------------------
     # updated storage to flow of batches
 
-    flow_of_batches['flow'].append('-'*40)
     flow_of_batches['flow'].append(f"storage: {available_goods_quantity}")
-    flow_of_batches['flow'].append('-'*40)
 
     # ---------------------------------------------------
     # assigning new orders instead of the completed ones
@@ -226,18 +223,3 @@ def order_priority(customer_orders):
                 queue.append(order_name)
 
     return queue, remaining_orders
-
-# =============================================================================
-
-
-if __name__ == "__main__":
-
-    no_of_packers = 1
-    available_goods_quantity = {"donut": 10, "croissant": 10, "bread": 10}
-    customer_orders = [
-        {"order_1": {"donut": 2, "bread": 1}},
-        {"order_2": {"bread": 5}},
-        {"order_3": {"donut": 4}},
-        {"order_4": {"croissant": 2, "donut": 1}},
-    ]
-    batch_orders(no_of_packers, available_goods_quantity, customer_orders)

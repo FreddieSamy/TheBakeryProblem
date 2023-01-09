@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>The Backery Problem</title>
+{% endblock%}
+
+{% block body %}
+<div class="content">
+    <h1>The Backery Problem</h1>
+
+    <!-- ======================================================== -->
+    
+    <form action="/" method="POST">
+        <label for="no_of_packers" class="content">number of packers</label>
+        <input type="number" name="no_of_packers" id="no_of_packers"
+            value="{{ request.form['no_of_packers'] | default(1) }}" class="content">
+
+        <!-- ---------------------------------------- -->
+
+        <label for="available_goods_quantity">available goods quantity</label>
+        <textarea type="text" cols='50' rows='5' name="available_goods_quantity" id="available_goods_quantity"
+            class="content">
+{{ request.form['available_goods_quantity'] | default('{"donut": 10, "croissant": 10, "bread": 10}') }}
+        </textarea>
+
+        <!-- ---------------------------------------- -->
+
+        <label for="customer_orders">customer orders</label>
+        <textarea type="text" cols='50' rows='10' name="customer_orders" id="customer_orders" class="content">
+{{ request.form['customer_orders'] | default('[
+    {"order_1": {"donut": 2, "bread": 1}},
+    {"order_2": {"bread": 5}},
+    {"order_3": {"donut": 4}},
+    {"order_4": {"croissant": 2, "donut": 1}}
+]
+') }}
+        </textarea>
+
+        <!-- ---------------------------------------- -->
+
+        <input type="submit" value="submit orders">
+    </form>
+
+    <!-- ======================================================== -->
+
+    <ul>
+        {%- for packer, data in flow_of_batches.items() %}
+        <h3>Flow of batches for packer {{packer}}</h3>
+        {%- for flow_line in data['flow'] %}
+        <li>
+            {{ flow_line }}
+        </li>
+        {%- endfor %}
+
+        <h5>Boxes Requested: {{ data['number_of_boxes'] }}</h5>
+        <h5>Orders Served: {{ data['number_of_orders'] }}</h5>
+        <h5>Items Packed: {{ data['number_of_items'] }}</h5>
+        <hr>
+        {%- endfor %}
+    </ul>
+</div>
+{% endblock%}
