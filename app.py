@@ -12,20 +12,27 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    if request.method == 'POST':
-        try:
-            no_of_packers = int(request.form['no_of_packers'])
-            available_goods_quantity = json.loads(
-                request.form['available_goods_quantity'])
-            print(available_goods_quantity)
-            customer_orders = json.loads((request.form['customer_orders']))
-            flow_of_batches, final_available_quantities = batch_orders(
-                no_of_packers, available_goods_quantity, customer_orders)
-            return render_template("index.html", flow_of_batches=flow_of_batches, final_available_quantities=final_available_quantities)
-        except:
-            return render_template("index.html", invalid=True)
-    else:
+
+    if request.method == 'GET':
         return render_template("index.html", flow_of_batches={}, final_available_quantities={})
+
+    try:
+        no_of_packers = int(request.form['no_of_packers'])
+
+        available_goods_quantity = json.loads(
+            request.form['available_goods_quantity'])
+
+        customer_orders = json.loads((request.form['customer_orders']))
+
+        flow_of_batches, final_available_quantities = batch_orders(
+            no_of_packers, available_goods_quantity, customer_orders)
+
+        return render_template("index.html", flow_of_batches=flow_of_batches, final_available_quantities=final_available_quantities)
+
+    except Exception as e:
+        print(e)
+        return render_template("index.html", invalid=True)
+
 
 # =====================================
 

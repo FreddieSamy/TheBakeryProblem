@@ -1,6 +1,6 @@
 # The Bakery Problem
 import threading
-
+from flask import Markup
 # Global lock
 LOCK = threading.Lock()
 
@@ -13,7 +13,6 @@ def batch_orders(no_of_packers, available_goods_quantity, customer_orders):
     :param customer_orders: customer orders
     :return: flow_of_batches: number a sequence of batches each packer will do
     """
-    # Write your code here
 
     # constructing order priority queue and remaining_orders
     order_priority_queue, remaining_orders = order_priority(customer_orders)
@@ -84,7 +83,7 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
     # requesting a box of items
 
     flow_of_batches['flow'].append(
-        f"==> packer {packer} operating box of {first_item}")
+        f"📤 packer {packer} operating box of {first_item}")
     flow_of_batches['number_of_boxes'] += 1
 
     # ---------------------------------------------------
@@ -92,7 +91,7 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
 
     for order_name in orders:
         flow_of_batches['flow'].append(
-            f"--- packing {remaining_orders[order_name][first_item]} of {first_item} for order {order_name}")
+            Markup(f"&emsp;&emsp;📦 packing {remaining_orders[order_name][first_item]} of {first_item} for order {order_name}"))
         flow_of_batches['number_of_items'] += remaining_orders[order_name][first_item]
 
         # The lock ensures non-interference between the threads for the same resource
@@ -112,14 +111,16 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
     # ---------------------------------------------------
     # updated storage to flow of batches
 
-    flow_of_batches['flow'].append(f"storage: {available_goods_quantity}")
+    flow_of_batches['flow'].append(
+        Markup(f"&emsp;&emsp;🛒 storage: {available_goods_quantity}"))
 
     # ---------------------------------------------------
     # assigning new orders instead of the completed ones
 
     if len(completed_orders):
         for order_name in completed_orders:
-            flow_of_batches['flow'].append(f"order {order_name} complete")
+            flow_of_batches['flow'].append(
+                Markup(f"&emsp;&emsp;✅ order {order_name} complete"))
 
         del current_item_orders[first_item]
         assign_orders_to_packer(packer, order_priority_queue,
@@ -155,7 +156,7 @@ def assign_orders_to_packer(packer, order_priority_queue, num_of_assigned_orders
     while len(order_priority_queue) > 0 and counter <= num_of_assigned_orders:
         order_name = order_priority_queue.pop(0)
         flow_of_batches['flow'].append(
-            f"assigning order {order_name} to packer {packer}")
+            f"📎 assigning order {order_name} to packer {packer}")
 
         for item in customer_orders[order_name]:
             if item in current_item_orders:

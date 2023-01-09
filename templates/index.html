@@ -7,7 +7,7 @@
 {% block body %}
 
 <div class="content">
-    <h1>The Bakery Problem</h1>
+    <h1>🏭 The Bakery Problem</h1>
 
     <!-- ======================================================== -->
 
@@ -47,7 +47,7 @@
     <h3>Invalid Input</h3>
     {% else %}
     {% for packer, data in flow_of_batches.items() %}
-    <h3>Flow of batches for packer {{packer}}</h3>
+    <h3>👷 Flow of batches for packer {{packer}}</h3>
     <table>
         {% for flow_line in data['flow'] %}
         <tr>
@@ -58,9 +58,9 @@
         {% endfor %}
         <tr>
             <td>
-                <h5>Boxes Requested: {{ data['number_of_boxes'] }}</h5>
-                <h5>Orders Served: {{ data['number_of_orders'] }}</h5>
-                <h5>Items Packed: {{ data['number_of_items'] }}</h5>
+                <p><b>📤 Boxes Requested: {{ data['number_of_boxes'] }}</b></p>
+                <p><b>✅ Orders Served: {{ data['number_of_orders'] }}</b></p>
+                <p><b>📦 Items Packed: {{ data['number_of_items'] }}</b></p>
             </td>
         </tr>
     </table>
