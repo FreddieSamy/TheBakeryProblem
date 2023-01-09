@@ -108,6 +108,8 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
 
         LOCK.release()
 
+    del current_item_orders[first_item]
+
     # ---------------------------------------------------
     # updated storage to flow of batches
 
@@ -122,7 +124,6 @@ def operate_orders(packer, current_item_orders, remaining_orders, available_good
             flow_of_batches['flow'].append(
                 Markup(f"&emsp;&emsp;✅ order {order_name} complete"))
 
-        del current_item_orders[first_item]
         assign_orders_to_packer(packer, order_priority_queue,
                                 len(completed_orders), remaining_orders, current_item_orders, flow_of_batches)
         flow_of_batches['number_of_orders'] += len(completed_orders)
@@ -153,7 +154,7 @@ def assign_orders_to_packer(packer, order_priority_queue, num_of_assigned_orders
         return
 
     counter = 0
-    while len(order_priority_queue) > 0 and counter <= num_of_assigned_orders:
+    while len(order_priority_queue) > 0 and counter < num_of_assigned_orders:
         order_name = order_priority_queue.pop(0)
         flow_of_batches['flow'].append(
             f"📎 assigning order {order_name} to packer {packer}")
@@ -163,7 +164,8 @@ def assign_orders_to_packer(packer, order_priority_queue, num_of_assigned_orders
                 current_item_orders[item].append(order_name)
             else:
                 current_item_orders[item] = [order_name]
-            counter = counter+1
+            
+        counter = counter+1
 
     # ---------------------------------------------------
 
