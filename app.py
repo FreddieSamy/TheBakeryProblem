@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request
 from TheBakeryProblem import batch_orders
 import json
+import os
+
+# =====================================
+
 app = Flask(__name__)
 
 # =====================================
@@ -19,7 +23,7 @@ def index():
                 no_of_packers, available_goods_quantity, customer_orders)
             return render_template("index.html", flow_of_batches=flow_of_batches)
         except:
-            return 'invalid input'
+            return render_template("index.html", invalid=True)
     else:
         return render_template("index.html", flow_of_batches={})
 
@@ -27,4 +31,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)

@@ -9,7 +9,7 @@
     <h1>The Backery Problem</h1>
 
     <!-- ======================================================== -->
-    
+
     <form action="/" method="POST">
         <label for="no_of_packers" class="content">number of packers</label>
         <input type="number" name="no_of_packers" id="no_of_packers"
@@ -32,8 +32,7 @@
     {"order_2": {"bread": 5}},
     {"order_3": {"donut": 4}},
     {"order_4": {"croissant": 2, "donut": 1}}
-]
-') }}
+]') }}
         </textarea>
 
         <!-- ---------------------------------------- -->
@@ -43,20 +42,28 @@
 
     <!-- ======================================================== -->
 
-    <ul>
-        {%- for packer, data in flow_of_batches.items() %}
-        <h3>Flow of batches for packer {{packer}}</h3>
+    {% if invalid %}
+    <h3>Invalid Input</h3>
+    {% else %}
+    {%- for packer, data in flow_of_batches.items() %}
+    <h3>Flow of batches for packer {{packer}}</h3>
+    <table>
         {%- for flow_line in data['flow'] %}
-        <li>
-            {{ flow_line }}
-        </li>
+        <tr>
+            <td>
+                {{ flow_line }}
+            </td>
+        </tr>
         {%- endfor %}
-
-        <h5>Boxes Requested: {{ data['number_of_boxes'] }}</h5>
-        <h5>Orders Served: {{ data['number_of_orders'] }}</h5>
-        <h5>Items Packed: {{ data['number_of_items'] }}</h5>
-        <hr>
-        {%- endfor %}
-    </ul>
+        <tr>
+            <td>
+                <h5>Boxes Requested: {{ data['number_of_boxes'] }}</h5>
+                <h5>Orders Served: {{ data['number_of_orders'] }}</h5>
+                <h5>Items Packed: {{ data['number_of_items'] }}</h5>
+            </td>
+        </tr>
+    </table>
+    {%- endfor %}
+    {% endif %}
 </div>
 {% endblock%}

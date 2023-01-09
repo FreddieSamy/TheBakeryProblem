@@ -52,18 +52,6 @@ def batch_orders(no_of_packers, available_goods_quantity, customer_orders):
         thread.join()
 
     # ---------------------------------------------------
-    # printing the flow of batches
-
-    for packer, data in flow_of_batches.items():
-        print(f"\n*** flow of batches for packer {packer} ***")
-        print('-'*40)
-        for flow_line in data['flow']:
-            print(flow_line)
-        print('='*40)
-        print('Boxes Requested:', data['number_of_boxes'])
-        print('Orders Served:', data['number_of_orders'])
-        print('Items Packed:', data['number_of_items'])
-        print('='*40)
 
     return flow_of_batches
 
@@ -223,3 +211,5 @@ def order_priority(customer_orders):
                 queue.append(order_name)
 
     return queue, remaining_orders
+
+# =============================================================================
