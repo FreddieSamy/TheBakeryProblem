@@ -1,9 +1,12 @@
 # TheBakeryProblem
 
 ## How To Run
-You can simply pull a docker image
+You can simply pull a docker image and run it
 ```
 $ docker pull freddiesamy/the-bakery-problem
+```
+```
+$ docker run -p 5000:5000 -d freddiesamy/the-bakery-problem
 ```
 
 OR
