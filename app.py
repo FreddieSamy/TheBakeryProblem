@@ -19,13 +19,13 @@ def index():
                 request.form['available_goods_quantity'])
             print(available_goods_quantity)
             customer_orders = json.loads((request.form['customer_orders']))
-            flow_of_batches = batch_orders(
+            flow_of_batches, final_available_quantities = batch_orders(
                 no_of_packers, available_goods_quantity, customer_orders)
-            return render_template("index.html", flow_of_batches=flow_of_batches)
+            return render_template("index.html", flow_of_batches=flow_of_batches, final_available_quantities=final_available_quantities)
         except:
             return render_template("index.html", invalid=True)
     else:
-        return render_template("index.html", flow_of_batches={})
+        return render_template("index.html", flow_of_batches={}, final_available_quantities={})
 
 # =====================================
 

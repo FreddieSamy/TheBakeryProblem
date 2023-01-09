@@ -5,6 +5,7 @@
 {% endblock%}
 
 {% block body %}
+
 <div class="content">
     <h1>The Bakery Problem</h1>
 
@@ -45,16 +46,16 @@
     {% if invalid %}
     <h3>Invalid Input</h3>
     {% else %}
-    {%- for packer, data in flow_of_batches.items() %}
+    {% for packer, data in flow_of_batches.items() %}
     <h3>Flow of batches for packer {{packer}}</h3>
     <table>
-        {%- for flow_line in data['flow'] %}
+        {% for flow_line in data['flow'] %}
         <tr>
             <td>
                 {{ flow_line }}
             </td>
         </tr>
-        {%- endfor %}
+        {% endfor %}
         <tr>
             <td>
                 <h5>Boxes Requested: {{ data['number_of_boxes'] }}</h5>
@@ -63,7 +64,23 @@
             </td>
         </tr>
     </table>
-    {%- endfor %}
+    {% endfor %}
+    {% if final_available_quantities|length != 0%}
+    <h3>Final available quantities</h3>
+    <table>
+        <tr>
+            <th>item</th>
+            <th>quantity</th>
+        </tr>
+        {% for item, quantity in final_available_quantities.items() %}
+        <tr>
+            <td>{{item}}</td>
+            <td>{{quantity}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
     {% endif %}
 </div>
 {% endblock%}

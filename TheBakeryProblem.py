@@ -53,7 +53,7 @@ def batch_orders(no_of_packers, available_goods_quantity, customer_orders):
 
     # ---------------------------------------------------
 
-    return flow_of_batches
+    return flow_of_batches, available_goods_quantity
 
 
 # =============================================================================
